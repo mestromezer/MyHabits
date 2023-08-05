@@ -1,0 +1,30 @@
+﻿@model IEnumerable<HabitModel>
+@{
+    ViewData["Title"] = "Monday";
+}
+
+<h1 class="text-center">Понедельник</h1>
+@if (Model != null)
+{
+    <table class="text-center">
+        <tr>
+            <th>Number</th>
+            <th>Habit</th>
+            <th>Progress</th>
+        </tr>
+        @foreach (var habit in Model)
+        {
+            <tr>
+                <th>@habit.ID</th>
+                <th>@habit.Name</th>
+                <th>Здесь будет прогресс</th>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <input type="button" name="CreateHabit" value="Скорее создайте себе новую привычку!">
+}
+
+

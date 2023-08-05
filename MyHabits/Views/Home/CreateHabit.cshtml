@@ -1,0 +1,15 @@
+﻿@model CreateHabitViewModel
+@{
+    ViewData["Title"] = "CreateHabit";
+}
+    
+<h1>Новая привычка</h1>
+<form asp-action="CreateHabit" asp-controller="Home" method="post">
+    <div asp-validation-summary="All">
+        <lable for="name" class="new_habit text-center">Название</lable>
+        <input type="text" name="name" asp-for="_name">
+        <lable for="day" class="new_habit text-center">Название</lable>
+        <input type="text" name="day" asp-for="day_of_week">
+    </div>
+    <input type="button" name="submit" value="Создать">
+</form>

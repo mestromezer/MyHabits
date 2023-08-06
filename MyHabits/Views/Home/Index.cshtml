@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<MyHabits.Models.Habit>
 
 @{
-    ViewData["Title"] = "My habits";
+    ViewData["Title"] = "Трекер твоих привычек";
 }
 
 <div class="main_window">
@@ -23,21 +23,12 @@
             @foreach (var item in Model) {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item._name)
+                        <a asp-action="Edit" asp-route-id="@item._id">@Html.DisplayFor(modelItem => item._name)</a>
                     </td>
-                    @*<td>
-                        @Html.DisplayFor(modelItem => item._date_of_start)
-                    </td>*@
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item._id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item._id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item._id">Delete</a>
-                    </td>
+                    @*Сделать здесь вывод чекбосков под сыволнение привычек*@
                 </tr>
             }
         </tbody>
     </table>
-    <p>
-        <a style="color:green" asp-action="Create">Create New</a>
-    </p>
+    <input class="pos_btn" type="button" onclick="location.href='@Url.Action("Create", "Home")'"  style="float:right" asp-action="Create" value="Добавить привычку">
 </div>

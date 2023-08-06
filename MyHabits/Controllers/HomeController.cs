@@ -9,7 +9,6 @@ namespace MyHabits.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private List<Habit> habits;
         static public DateTime FindDate(System.DayOfWeek day_of_week)
         {
             var today = DateTime.Today;
@@ -44,24 +43,6 @@ namespace MyHabits.Controllers
             return _context.Habit != null ?
                         View(await _context.Habit.ToListAsync()) :
                         Problem("Entity set 'MyHabitsContext.Habit'  is null.");
-        }
-
-        // GET: Habits/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Habit == null)
-            {
-                return NotFound();
-            }
-
-            var habit = await _context.Habit
-                .FirstOrDefaultAsync(m => m._id == id);
-            if (habit == null)
-            {
-                return NotFound();
-            }
-
-            return View(habit);
         }
 
         // GET: Habits/Create
@@ -178,25 +159,6 @@ namespace MyHabits.Controllers
         {
             return (_context.Habit?.Any(e => e._id == id)).GetValueOrDefault();
         }
-
-        /*public IActionResult Index()
-        {
-            
-            return View();
-        }*/
-        public IActionResult HabitOptions(int id)
-        {
-            var habit = habits.Where(el => el._id == id);
-            return View(habit);
-        }
-        [HttpGet]
-        public IActionResult CreateHabit()=>View();
-        [HttpPost]
-        /*public IActionResult CreateHabit(CreateHabitViewModel model)
-        {
-            //db.Add(new Habit(model._name,"random bro"));
-            return View();
-        }*/
         public IActionResult Privacy()
         {
             return View();

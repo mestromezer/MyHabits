@@ -1,18 +1,43 @@
-﻿@model IEnumerable<HabitModel>
+﻿@model IEnumerable<MyHabits.Models.Habit>
+
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "My habits";
 }
 
-<div class="text-center">
-    <h1>Welcome!</h1>
-    
-        <ul class='hr'>
-            <li><asp:Button id="mon_redirect" runa>Понедельник</li>
-            <li>Вторник</li>
-            <li>Среда</li>
-            <li>Четверг</li>
-            <li>Пятница</li>
-            <li>Суббота</li>
-            <li>Воскресение</li>
-        </ul>
+<div class="main_window">
+    <h1 class="text-center">My habits app - трекер твоих полезных привычек</h1>
+
+    <table class="table center">
+
+        <tbody>
+            <tr>
+                <th>Привычка</th>
+                @for (int i = 0; i < ViewBag.dates.Count; i++)
+                {
+                    <th>
+                                @ViewBag.dates[i].DayOfWeek
+                                @ViewBag.dates[i].Date.ToShortDateString()
+                    </th>
+                }
+            </tr>
+            @foreach (var item in Model) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item._name)
+                    </td>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item._date_of_start)
+                    </td>*@
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item._id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item._id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item._id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <p>
+        <a style="color:green" asp-action="Create">Create New</a>
+    </p>
 </div>

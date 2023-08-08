@@ -12,6 +12,8 @@ namespace MyHabits.Data
         public MyHabitsContext (DbContextOptions<MyHabitsContext> options)
             : base(options)
         {
+            //Database.EnsureDeleted();
+            Database.EnsureCreated();
         }
 
         public DbSet<MyHabits.Models.Habit> Habit { get; set; } = default!;

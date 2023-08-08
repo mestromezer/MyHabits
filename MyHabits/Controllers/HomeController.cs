@@ -90,7 +90,7 @@ namespace MyHabits.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("_id,_name,_date_of_start")] Habit habit)
         {
-            if (id != habit._id)
+            if (id != habit.Id)
             {
                 return NotFound();
             }
@@ -104,7 +104,7 @@ namespace MyHabits.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!HabitExists(habit._id))
+                    if (!HabitExists(habit.Id))
                     {
                         return NotFound();
                     }
@@ -127,7 +127,7 @@ namespace MyHabits.Controllers
             }
 
             var habit = await _context.Habit
-                .FirstOrDefaultAsync(m => m._id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (habit == null)
             {
                 return NotFound();
@@ -157,7 +157,7 @@ namespace MyHabits.Controllers
 
         private bool HabitExists(int id)
         {
-            return (_context.Habit?.Any(e => e._id == id)).GetValueOrDefault();
+            return (_context.Habit?.Any(e => e.Id == id)).GetValueOrDefault();
         }
         public IActionResult Privacy()
         {

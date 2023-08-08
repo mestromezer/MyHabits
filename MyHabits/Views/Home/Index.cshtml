@@ -23,9 +23,22 @@
             @foreach (var item in Model) {
                 <tr>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item._id">@Html.DisplayFor(modelItem => item._name)</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item._name)</a>
                     </td>
-                    @*Сделать здесь вывод чекбосков под сыволнение привычек*@
+                    
+                    @foreach (var check_point in item._dates_of_habit.ThisWeekChecksPoints())
+                    {
+                    <td>
+                        @if (check_point)
+                        {
+                            <input type="checkbox" checked>
+                        }
+                        else
+                        {
+                            <input type="checkbox">
+                        }
+                    </td>
+                        }
                 </tr>
             }
         </tbody>

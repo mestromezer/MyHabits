@@ -15,11 +15,11 @@
                 <input asp-for="_name" class="form-control" />
                 <span asp-validation-for="_name" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="_date_of_start" class="control-label">Выбери дату начала!</label>
                 <input asp-for="_date_of_start" class="form-control" />
                 <span asp-validation-for="_date_of_start" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <input class="pos_btn" type="submit" value="Создать!" style="margin:auto" asp-controller="home" asp-action="Create">
             </div>

@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewData["Title"] = "Отметить выполнение";
+}
+
+@if (ViewData.ContainsKey("_name_of_deleted"))
+{
+    <h1>ПОЗДРАВЛЯЕМ!</h1>
+    <h3>Отличная работа</h3>
+    <P>Вы выполнили @ViewData["_name_of_deleted"]!</P>
+}
+else
+{
+    <h1>Заметка добавлена</h1>
+    <a href="@Url.Action("Index","Home")">На главный экаран</a>
+}
+

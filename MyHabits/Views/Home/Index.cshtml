@@ -4,7 +4,7 @@
     ViewData["Title"] = "Трекер твоих привычек";
 }
 
-<div class="main_window">
+<div class="container">
     <h1 class="text-center">My habits app - трекер твоих полезных привычек</h1>
 
     <table class="table center">
@@ -19,29 +19,27 @@
                                 @ViewBag.dates[i].Date.ToShortDateString()
                     </th>
                 }
+                <th>Прогресс</th>
             </tr>
             @foreach (var item in Model) {
                 <tr>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item._name)</a>
                     </td>
-                    
-                    @foreach (var check_point in item._dates_of_habit.ThisWeekChecksPoints())
+                    @for(int i = 0; i < ViewBag.dates.Count; i++)
                     {
-                    <td>
-                        @if (check_point)
-                        {
-                            <input type="checkbox" checked>
-                        }
-                        else
-                        {
-                            <input type="checkbox">
-                        }
-                    </td>
-                        }
+                        <td>
+                            @if (item._registered_actions != null && item._registered_actions.Find(d => d._date == ViewBag.dates[i]) != null)
+                            {
+                                <p>✅</p>
+                            }
+                        </td>
+                    }
+                    <td>@item._registered_actions.Count() из 30 дней</td>
                 </tr>
             }
         </tbody>
     </table>
-    <input class="pos_btn" type="button" onclick="location.href='@Url.Action("Create", "Home")'"  style="float:right" asp-action="Create" value="Добавить привычку">
+    <input type="button" class="button" onclick="location.href='@Url.Action("Create", "Home")'" value="➕">
+    <input type="button" class="button" onclick="location.href='@Url.Action("Register", "Home")'" value="Зафиксировать исполнение">
 </div>

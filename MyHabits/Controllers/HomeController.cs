@@ -9,7 +9,7 @@ namespace MyHabits.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        static public DateTime FindDate(System.DayOfWeek day_of_week)
+        static public DateTime FindDateOfMonday(System.DayOfWeek day_of_week)
         {
             var today = DateTime.Today;
             while (today.DayOfWeek != day_of_week) { today = today.AddDays(-1); }
@@ -20,54 +20,42 @@ namespace MyHabits.Controllers
         {
             _logger = logger;
             _context = context;
-            //_jsonFileHabitService = jsonFileHabitService;
         }
 
         private readonly MyHabitsContext _context;
 
-        /*public HabitsController(MyHabitsContext context)
-        {
-            _context = context;
-        }*/
-
-        // GET: Habits
         public async Task<IActionResult> Index()
         {
             var dates = new List<DateTime>();
-            var monday = FindDate(System.DayOfWeek.Monday);
+            var monday = FindDateOfMonday(System.DayOfWeek.Monday);
             for (int i = 0; i < 7; i++)
             {
                 dates.Add(monday.AddDays(i));
             }
+            IEnumerable<Habit>? data = await _context.Habit.ToListAsync();
             ViewBag.dates = dates;
-            return _context.Habit != null ?
-                        View(await _context.Habit.ToListAsync()) :
-                        Problem("Entity set 'MyHabitsContext.Habit'  is null.");
+            return View(data);
         }
 
-        // GET: Habits/Create
         public IActionResult Create()
         {
             return View();
         }
-
-        // POST: Habits/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("_id,_name,_date_of_start")] Habit habit)
+        [ValidateAntiForgeryToken] // css protection
+        public async Task<IActionResult> Create([Bind("_id,_name")] Habit habit)
         {
             if (ModelState.IsValid)
             {
+                habit._date_of_end = DateTime.Today.AddDays(30);
+                habit._registered_actions = new List<DayOfHabit>();
+
                 _context.Add(habit);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(habit);
         }
-
-        // GET: Habits/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Habit == null)
@@ -83,12 +71,9 @@ namespace MyHabits.Controllers
             return View(habit);
         }
 
-        // POST: Habits/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("_id,_name,_date_of_start")] Habit habit)
+        public async Task<IActionResult> Edit(int id, [Bind("_id,_name")] Habit habit)
         {
             if (id != habit.Id)
             {
@@ -118,7 +103,7 @@ namespace MyHabits.Controllers
             return View(habit);
         }
 
-        // GET: Habits/Delete/5
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Habit == null)
@@ -158,6 +143,58 @@ namespace MyHabits.Controllers
         private bool HabitExists(int id)
         {
             return (_context.Habit?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        public async Task<IActionResult> Register() // Registrate that user completed daily action habit
+        {
+            return _context.Habit != null ?
+                        View(await _context.Habit.ToListAsync()) :
+                        Problem("Entity set 'MyHabitsContext.Habit'  is null.");
+        }
+        public async Task<IActionResult> RegisterAction(int id) // Save the record of completed action
+        {
+            if (_context.Habit == null)
+                NotFound();
+
+            var to_reg_habit = await _context.Habit.FindAsync(id);
+
+            if(to_reg_habit == null)
+                throw new Exception("Can't find the habit");
+
+            var day = new DayOfHabit() { _date = DateTime.Today, _if_action = true };
+
+            if (to_reg_habit._registered_actions == null)
+                throw new Exception("List of registered actions was not initialized");
+
+            if (day._date == to_reg_habit._date_of_end) 
+            {
+                try
+                {
+                    ViewData["_name_of_deleted"] = to_reg_habit._name;
+                    _context.Remove(to_reg_habit);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw new Exception("Could not update data to database");
+                }
+                return View();
+            }
+            else
+            {
+                to_reg_habit._registered_actions.Add(day);
+
+                try
+                {
+                    _context.Update(to_reg_habit);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw new Exception("Could not update data to database");
+                }
+                return View();
+            }
         }
         public IActionResult Privacy()
         {

@@ -17,18 +17,45 @@ namespace MyHabits.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.20")
+                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MyHabits.Models.Habit", b =>
+            modelBuilder.Entity("MyHabits.Models.DayOfHabit", b =>
                 {
-                    b.Property<int>("_id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("_id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("HabitId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("_if_action")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HabitId");
+
+                    b.ToTable("DayOfHabit");
+                });
+
+            modelBuilder.Entity("MyHabits.Models.Habit", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("_date_of_start")
                         .HasColumnType("datetime2");
@@ -37,9 +64,21 @@ namespace MyHabits.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("_id");
+                    b.HasKey("Id");
 
                     b.ToTable("Habit");
+                });
+
+            modelBuilder.Entity("MyHabits.Models.DayOfHabit", b =>
+                {
+                    b.HasOne("MyHabits.Models.Habit", null)
+                        .WithMany("_registered_actions")
+                        .HasForeignKey("HabitId");
+                });
+
+            modelBuilder.Entity("MyHabits.Models.Habit", b =>
+                {
+                    b.Navigation("_registered_actions");
                 });
 #pragma warning restore 612, 618
         }

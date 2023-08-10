@@ -9,22 +9,28 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model._name)
+            <p>Название</p>
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model._name)
+            <p>@Model._name</p>
         </dd>
-        @*<dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model._date_of_start)
+        <dt class = "col-sm-2">
+            <p>Дата окончания</p>
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model._date_of_start)
-        </dd>*@
+            <p>@Model._date_of_end</p>
+        </dd>
+        <dt class="col-sm-2">
+            <p>Прогресс</p>
+        </dt>
+        <dd class="col-sm-10">
+            <p>@Model._registered_actions.Count() / 30</p>
+        </dd>
     </dl>
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Удалить" class="btn btn-danger" /> |
+        <a asp-action="Index">Назад</a>
     </form>
 </div>

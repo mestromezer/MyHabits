@@ -9,7 +9,7 @@ namespace MyHabits.Data
 {
     public class MyHabitsContext : DbContext
     {
-        public MyHabitsContext (DbContextOptions<MyHabitsContext> options)
+        public MyHabitsContext(DbContextOptions<MyHabitsContext> options)
             : base(options)
         {
             //Database.EnsureDeleted();
@@ -17,5 +17,9 @@ namespace MyHabits.Data
         }
 
         public DbSet<MyHabits.Models.Habit> Habit { get; set; } = default!;
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

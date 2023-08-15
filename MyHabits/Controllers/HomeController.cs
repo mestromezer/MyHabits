@@ -11,6 +11,7 @@ namespace MyHabits.Controllers
         private readonly ILogger<HomeController> _logger;
         static public DateTime FindDateOfMonday(System.DayOfWeek day_of_week)
         {
+            // Returns date of current week's first day (monday)
             var today = DateTime.Today;
             while (today.DayOfWeek != day_of_week) { today = today.AddDays(-1); }
             return today.Date;
@@ -22,10 +23,13 @@ namespace MyHabits.Controllers
             _context = context;
         }
 
-        private readonly MyHabitsContext _context;
+        private readonly MyHabitsContext _context; // Database 
 
         public async Task<IActionResult> Index()
         {
+            // /home/index
+            // get
+
             var dates = new List<DateTime>();
             var monday = FindDateOfMonday(System.DayOfWeek.Monday);
             for (int i = 0; i < 7; i++)
@@ -36,18 +40,18 @@ namespace MyHabits.Controllers
             ViewBag.dates = dates;
             return View(data);
         }
+        public IActionResult Create() => View(); 
+        // home/create
+        // get
 
-        public IActionResult Create()
-        {
-            return View();
-        }
         [HttpPost]
         [ValidateAntiForgeryToken] // css protection
         public async Task<IActionResult> Create([Bind("_id,_name")] Habit habit)
         {
+            // /home/create
+            // post
             if (ModelState.IsValid)
             {
-                habit._date_of_end = DateTime.Today.AddDays(30);
                 habit._registered_actions = new List<DayOfHabit>();
 
                 _context.Add(habit);
@@ -73,8 +77,10 @@ namespace MyHabits.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("_id,_name")] Habit habit)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,_name")] Habit habit)
         {
+            // home/edit
+            // post
             if (id != habit.Id)
             {
                 return NotFound();
@@ -102,10 +108,11 @@ namespace MyHabits.Controllers
             }
             return View(habit);
         }
-
-
         public async Task<IActionResult> Delete(int? id)
         {
+            // /home/delete
+            // post
+
             if (id == null || _context.Habit == null)
             {
                 return NotFound();
@@ -117,15 +124,13 @@ namespace MyHabits.Controllers
             {
                 return NotFound();
             }
-
             return View(habit);
         }
 
-        // POST: Habits/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            // /home/DeleteConfirmed
+            // post
             if (_context.Habit == null)
             {
                 return Problem("Entity set 'MyHabitsContext.Habit'  is null.");
@@ -140,21 +145,15 @@ namespace MyHabits.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool HabitExists(int id)
-        {
-            return (_context.Habit?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
+        private bool HabitExists(int id)=>(_context.Habit?.Any(e => e.Id == id)).GetValueOrDefault();
 
-        public async Task<IActionResult> Register() // Registrate that user completed daily action habit
-        {
-            return _context.Habit != null ?
+        public async Task<IActionResult> Register() => _context.Habit != null ? // Registrate that user completed daily action habit
                         View(await _context.Habit.ToListAsync()) :
                         Problem("Entity set 'MyHabitsContext.Habit'  is null.");
-        }
-        public async Task<IActionResult> RegisterAction(int id) // Save the record of completed action
+        public async Task<IActionResult> RegisterAction(int id)
         {
-            if (_context.Habit == null)
-                NotFound();
+            // Save the record of completed action
+            if (_context.Habit == null) { NotFound(); }
 
             var to_reg_habit = await _context.Habit.FindAsync(id);
 
@@ -165,6 +164,8 @@ namespace MyHabits.Controllers
 
             if (to_reg_habit._registered_actions == null)
                 throw new Exception("List of registered actions was not initialized");
+
+            to_reg_habit._registered_actions.Add(day);
 
             if (day._date == to_reg_habit._date_of_end) 
             {
@@ -178,12 +179,10 @@ namespace MyHabits.Controllers
                 {
                     throw new Exception("Could not update data to database");
                 }
-                return View();
+                return View(to_reg_habit);
             }
             else
             {
-                to_reg_habit._registered_actions.Add(day);
-
                 try
                 {
                     _context.Update(to_reg_habit);
@@ -196,15 +195,9 @@ namespace MyHabits.Controllers
                 return View();
             }
         }
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+        public IActionResult Privacy() => View();
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        public IActionResult Error()=> View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-    }
 }

@@ -2,8 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MyHabits.Data;
-
-HomeController.FindDateOfMonday(System.DayOfWeek.Monday);
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<MyHabitsContext>(options =>
@@ -11,7 +10,6 @@ builder.Services.AddDbContext<MyHabitsContext>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-//builder.Services.AddTransient<JsonFileHabitService>();
 
 var app = builder.Build();
 
@@ -23,12 +21,8 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
-app.UseStaticFiles();
 
 app.UseRouting();
-
-app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",

@@ -4,33 +4,30 @@
     ViewData["Title"] = "Удаление";
 }
 
-<h1>Удалить привычку</h1>
+<h1 class="text-center">Удалить привычку</h1>
 <div>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
+    <dl class="text-center container">
+        <dt>
             <p>Название</p>
         </dt>
-        <dd class = "col-sm-10">
+        <dd>
             <p>@Model._name</p>
         </dd>
-        <dt class = "col-sm-2">
+        <dt">
             <p>Дата окончания</p>
         </dt>
-        <dd class = "col-sm-10">
+        <dd>
             <p>@Model._date_of_end</p>
         </dd>
-        <dt class="col-sm-2">
+        <dt>
             <p>Прогресс</p>
         </dt>
-        <dd class="col-sm-10">
-            <p>@Model._registered_actions.Count() / 30</p>
+        <dd>
+            <p>@(Model._registered_actions.Count()) / 30</p>
         </dd>
+        <form asp-action="Delete">
+                <input class="button" type="button" value="Удалить" onclick="location.href='@Url.ActionLink("DeleteConfirmed", "Home",values:new {id = Model.Id})'" formmethod="post">
+        </form>
+            <a href="@Url.Action("Index","Home")">Назад</a>
     </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Удалить" class="btn btn-danger" /> |
-        <a asp-action="Index">Назад</a>
-    </form>
 </div>

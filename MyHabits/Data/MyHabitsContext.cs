@@ -21,5 +21,6 @@ namespace MyHabits.Data
         {
             base.OnModelCreating(modelBuilder);
         }
+
     }
 }

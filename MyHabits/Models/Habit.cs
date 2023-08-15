@@ -15,5 +15,6 @@ namespace MyHabits.Models
         public DateTime _date_of_end { get; set; } = DateTime.Now; // date to start with
         // //(completed at date of start + 30 days)
         public virtual List<DayOfHabit>? _registered_actions { get; set; }//days when the habit action were registered
+
     }
 }

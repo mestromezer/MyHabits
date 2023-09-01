@@ -1,0 +1,33 @@
+﻿@model MyHabits.Models.Habit
+
+@{
+    ViewData["Title"] = "Удаление";
+}
+
+<h1 class="text-center">Удалить привычку</h1>
+<div>
+    <dl class="text-center container">
+        <dt>
+            <p>Название</p>
+        </dt>
+        <dd>
+            <p>@Model._name</p>
+        </dd>
+        <dt">
+            <p>Дата окончания</p>
+        </dt>
+        <dd>
+            <p>@Model._date_of_end</p>
+        </dd>
+        <dt>
+            <p>Прогресс</p>
+        </dt>
+        <dd>
+            <p>@(Model._registered_actions.Count()) / 30</p>
+        </dd>
+        <form asp-action="Delete">
+                <input class="button" type="button" value="Удалить" onclick="location.href='@Url.ActionLink("DeleteConfirmed", "Home",values:new {id = Model.Id})'" formmethod="post">
+        </form>
+            <a href="@Url.Action("Index","Home")">Назад</a>
+    </dl>
+</div>

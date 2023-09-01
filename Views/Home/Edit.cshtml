@@ -1,0 +1,31 @@
+﻿@model MyHabits.Models.Habit
+
+@{
+    ViewData["Title"] = "Редактировать";
+}
+
+<div class="center container text-center">
+    <form asp-action="Edit" class="content">
+        <div class="form-group">
+        <h1>Внесите изменения</h1>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="_name">Название</label>
+            <input asp-for="_name" />
+            <span asp-validation-for="_name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <input class="button" type="submit" value="Готово" onclick="location.href='@Url.ActionLink("Edit", "Home",values: new {id = Model.Id})'">
+            <input class="button" type="button" value="Назад" onclick="location.href='@Url.Action("Index", "Home")'">
+            <input class="button" type="button" value="Удалить" onclick="location.href='@Url.ActionLink("Delete", "Home",values:new {id = Model.Id})'">
+        </div>
+
+    </form>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

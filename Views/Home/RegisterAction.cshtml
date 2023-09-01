@@ -1,0 +1,20 @@
+﻿@model Habit
+@{
+    ViewData["Title"] = "Отметить выполнение";
+}
+
+<div class="text-center container">
+@if (ViewData.ContainsKey("_name_of_deleted"))
+{
+    <h1>ПОЗДРАВЛЯЕМ!</h1>
+    <h3>Отличная работа</h3>
+    <P>Время @ViewData["_name_of_deleted"] вышло.</P>
+    <p>Ваш прогресс @Model._registered_actions.Count() из 30</p>
+}
+else
+{
+    <h1>Заметка добавлена</h1>
+}
+<a href="@Url.Action("Index","Home")">На главный экаран</a>
+
+</div>

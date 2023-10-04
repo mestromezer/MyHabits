@@ -24,18 +24,18 @@
             @foreach (var item in Model) {
                 <tr>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item._name)</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
                     </td>
                     @for(int i = 0; i < ViewBag.dates.Count; i++)
                     {
                         <td>
-                            @if (item._registered_actions != null && item._registered_actions.Find(d => d._date == ViewBag.dates[i]) != null)
+                            @if (item.RegisteredActions != null && item.RegisteredActions.Find(d => d.Date == ViewBag.dates[i]) != null)
                             {
                                 <p>✅</p>
                             }
                         </td>
                     }
-                    <td>@item._registered_actions.Count() из 30 дней</td>
+                    <td>@item.RegisteredActions.Count() из 30 дней</td>
                 </tr>
             }
         </tbody>

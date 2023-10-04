@@ -1,13 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MyHabits.Models
+namespace MyHabits.Models;
+
+public class DayOfHabit
 {
-    public class DayOfHabit
-    {
-        [Key]
-        // Id of the day.
-        public int Id { get; set; }
-        // Date of the day.
-        public DateTime _date { get; set; }
-    }
+    [Key]
+    // Id of the day.
+    public int Id { get; set; }
+    // Date of the day.
+    public DateTime Date { get; set; }
 }

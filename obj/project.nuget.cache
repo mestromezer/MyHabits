@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "JNSi+rxkxgV+QIf3F0sok7WoE3iue/MY+NU6b9W2ap/hCY2P5x1mURhWd8fk22RQjdFE0mM86EhyKqWBLdeWrw==",
+  "dgSpecHash": "3l+fEu0QbaHwRJdsCnUL6339yR5F9jsh8xhH8fKrXWCrEtM0xi+T6WkYOvSMDqzWQCDYfGxwgyQ7YjgLj5fVOw==",
   "success": true,
-  "projectFilePath": "c:\\Users\\globa\\source\\repos\\MyHabits\\MyHabits\\MyHabits.csproj",
+  "projectFilePath": "C:\\Users\\globa\\source\\repos\\MyHabits\\MyHabits\\MyHabits.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\globa\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\globa\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",

@@ -1,23 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using MyHabits.Models;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace MyHabits.Data
+namespace MyHabits.Data;
+
+public class MyHabitsContext : DbContext
 {
-    public class MyHabitsContext : DbContext
+    public MyHabitsContext(DbContextOptions<MyHabitsContext> options)
+        : base(options)
     {
-        public MyHabitsContext(DbContextOptions<MyHabitsContext> options)
-            : base(options)
-        {
-            Database.EnsureCreated();
-        }
-        public DbSet<MyHabits.Models.Habit> Habit { get; set; } = default!;
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-        }
+        Database.EnsureCreated();
+    }
+    public DbSet<MyHabits.Models.Habit> Habit { get; set; } = default!;
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
     }
 }

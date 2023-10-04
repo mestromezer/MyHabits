@@ -11,19 +11,19 @@
             <p>Название</p>
         </dt>
         <dd>
-            <p>@Model._name</p>
+            <p>@Model.Name</p>
         </dd>
         <dt">
             <p>Дата окончания</p>
         </dt>
         <dd>
-            <p>@Model._date_of_end</p>
+            <p>@Model.DateOfEnd</p>
         </dd>
         <dt>
             <p>Прогресс</p>
         </dt>
         <dd>
-            <p>@(Model._registered_actions.Count()) / 30</p>
+            <p>@(Model.RegisteredActions.Count()) / 30</p>
         </dd>
         <form asp-action="Delete">
                 <input class="button" type="button" value="Удалить" onclick="location.href='@Url.ActionLink("DeleteConfirmed", "Home",values:new {id = Model.Id})'" formmethod="post">
